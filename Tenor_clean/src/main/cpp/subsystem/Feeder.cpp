@@ -6,7 +6,7 @@
 
 Feeder::Feeder()
 {
-    _feederMotor.ConfigFactoryDefault();
+    m_feederMotor.ConfigFactoryDefault();
     m_feederMotor.SetInverted(FEEDER_MOTOR_INVERTED);
     m_feederMotor.EnableVoltageCompensation(true);
     m_feederMotor.ConfigVoltageCompSaturation(FEEDER_VOLTAGE_COMPENSATION);

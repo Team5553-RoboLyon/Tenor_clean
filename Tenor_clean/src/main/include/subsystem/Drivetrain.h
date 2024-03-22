@@ -64,15 +64,15 @@ public:
   State m_State;
 
   double m_sigma;
+  bool m_auto;
 
   frc::Encoder m_EncoderLeft{ID_ENCODER_DRIVE_TRAIN_LEFT_A, ID_ENCODER_DRIVE_TRAIN_LEFT_B, false, frc::Encoder::k4X};
   frc::Encoder m_EncoderRight{ID_ENCODER_DRIVE_TRAIN_RIGHT_A, ID_ENCODER_DRIVE_TRAIN_RIGHT_B, true, frc::Encoder::k4X};
-
-private:
   rev::CANSparkMax m_MotorRight1{ID_MOTOR_DRIVE_TRAIN_RIGHT, rev::CANSparkLowLevel::MotorType::kBrushless};
   rev::CANSparkMax m_MotorRight2{ID_MOTOR_DRIVE_TRAIN_RIGHT_2, rev::CANSparkLowLevel::MotorType::kBrushless};
   rev::CANSparkMax m_MotorLeft1{ID_MOTOR_DRIVE_TRAIN_LEFT, rev::CANSparkLowLevel::MotorType::kBrushless};
   rev::CANSparkMax m_MotorLeft2{ID_MOTOR_DRIVE_TRAIN_LEFT_2, rev::CANSparkLowLevel::MotorType::kBrushless};
 
+private:
   frc::DoubleSolenoid m_BallShifterSolenoid{frc::PneumaticsModuleType::CTREPCM, ID_SOLENOID_SHIFTER_A, ID_SOLENOID_SHIFTER_B};
 };

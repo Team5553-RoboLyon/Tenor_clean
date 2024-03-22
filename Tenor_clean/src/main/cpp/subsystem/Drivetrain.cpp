@@ -5,8 +5,7 @@
 #include "subsystem/Drivetrain.h"
 
 Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
-                           m_GearboxRightOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
-                           m_GearboxesOutAveragedAccelerationRpm2(AVERAGE_SAMPLES_NUMBER)
+                           m_GearboxRightOutAveragedRpt(AVERAGE_SAMPLES_NUMBER)
 
 {
     m_MotorLeft1.RestoreFactoryDefaults(); // reset des paramètres du moteur
@@ -64,8 +63,8 @@ void Drivetrain::Set(double speed)
 
 void Drivetrain::SetVoltage(double right, double left)
 {
-    m_MotorLeft1.SetVoltage(left);
-    m_MotorRight1.SetVoltage(right);
+    m_MotorLeft1.Set(left / 12.0);
+    m_MotorRight1.Set(right / 12.0);
 }
 
 void Drivetrain::DriveAuto(double speed, double rotation)
@@ -76,12 +75,12 @@ void Drivetrain::DriveAuto(double speed, double rotation)
 
 void Drivetrain::ActiveBallShifterV1()
 {
-    m_BallShifter.Set(frc::DoubleSolenoid::Value::kForward);
+    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
 }
 
 void Drivetrain::ActiveBallShifterV2()
 {
-    m_BallShifter.Set(frc::DoubleSolenoid::Value::kReverse);
+    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void Drivetrain::ChangeBallShifter()
@@ -194,8 +193,4 @@ void Drivetrain::Drive(double joystick_V, double joystick_W)
 
     m_MotorLeft1.Set(Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, std::sin(m_JoystickLimited_W.m_current * (NF64_PI / 2)), 0));
     m_MotorRight1.Set(Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, std::sin(m_JoystickLimited_W.m_current * (NF64_PI / 2)), 1));
-}
-// This method will be called once per scheduler run
-void Drivetrain::Periodic()
-{
 }
