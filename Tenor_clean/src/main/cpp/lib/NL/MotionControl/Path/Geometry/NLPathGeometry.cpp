@@ -9,48 +9,71 @@
 
 NLPATH_GEOMETRY::NLPATH_GEOMETRY()
 {
-//	m_flags = 0;
-	m_ds	= 0.0f;
+	//	m_flags = 0;
+	m_ds = 0.0f;
 	NSetupArray(&m_pathPointsArray, DEFAULT_NLPATH_PATHPOINTS_ARRAYCAPACITY, sizeof(NLPATH_POINT));
 	NSetupArray(&m_primitivesArray, DEFAULT_NLPATH_PRIMITIVES_ARRAYCAPACITY, sizeof(NLPATH_PRIMITIVE));
 
 #ifdef _NEDITOR
-	m_KeyPointExtend.x		=		DEFAULT_NLPATH_GEOMETRY_PATHPOINT_XEXTEND;
-	m_KeyPointExtend.y		=		DEFAULT_NLPATH_GEOMETRY_PATHPOINT_YEXTEND;
-	m_ClothoidDrawAccuracy	=		DEFAULT_NLPATH_GEOMETRY_CLOTHOID_DRAW_ACCURACY;
-	m_ArcDrawAccuracy		=		DEFAULT_NLPATH_GEOMETRY_ARC_DRAW_ACCURACY;
+	m_KeyPointExtend.x = DEFAULT_NLPATH_GEOMETRY_PATHPOINT_XEXTEND;
+	m_KeyPointExtend.y = DEFAULT_NLPATH_GEOMETRY_PATHPOINT_YEXTEND;
+	m_ClothoidDrawAccuracy = DEFAULT_NLPATH_GEOMETRY_CLOTHOID_DRAW_ACCURACY;
+	m_ArcDrawAccuracy = DEFAULT_NLPATH_GEOMETRY_ARC_DRAW_ACCURACY;
 
-	NSetColorf(&m_SegmentColor,		DEFAULT_NLPATH_GEOMETRY_SEGMENT_COLOR);
-	NSetColorf(&m_ClothoidColorA,	DEFAULT_NLPATH_GEOMETRY_CLOTHOID_COLORA);
-	NSetColorf(&m_ClothoidColorB,	DEFAULT_NLPATH_GEOMETRY_CLOTHOID_COLORB);
-	NSetColorf(&m_ArcColor,			DEFAULT_NLPATH_GEOMETRY_ARC_COLOR);
-	NSetColorf(&m_KeyPointColor,	DEFAULT_NLPATH_GEOMETRY_PATHPOINT_COLOR);
-	NSetColorf(&m_KeyPointIDColor,	DEFAULT_NLPATH_GEOMETRY_PATHPOINTID_COLOR);
-	NSetColorf(&m_WarningColor,		DEFAULT_NLPATH_GEOMETRY_WARNING_COLOR);
+	NSetColorf(&m_SegmentColor, DEFAULT_NLPATH_GEOMETRY_SEGMENT_COLOR);
+	NSetColorf(&m_ClothoidColorA, DEFAULT_NLPATH_GEOMETRY_CLOTHOID_COLORA);
+	NSetColorf(&m_ClothoidColorB, DEFAULT_NLPATH_GEOMETRY_CLOTHOID_COLORB);
+	NSetColorf(&m_ArcColor, DEFAULT_NLPATH_GEOMETRY_ARC_COLOR);
+	NSetColorf(&m_KeyPointColor, DEFAULT_NLPATH_GEOMETRY_PATHPOINT_COLOR);
+	NSetColorf(&m_KeyPointIDColor, DEFAULT_NLPATH_GEOMETRY_PATHPOINTID_COLOR);
+	NSetColorf(&m_WarningColor, DEFAULT_NLPATH_GEOMETRY_WARNING_COLOR);
 #endif
+}
+Nu32 NLPATH_GEOMETRY::writeTxt(FILE *pfile)
+{
+	fprintf(pfile, "\n--NLPATH_GEOMETRY Export Txt --\n");
+
+	fprintf(pfile, "#header.m_ds: %.5f\n", m_ds);
+
+	NARRAYBOUNDS keypointsarraybounds;
+	NARRAYBOUNDS primitivesarraybounds;
+	NGetArrayBounds(&keypointsarraybounds, &m_pathPointsArray);
+	NGetArrayBounds(&primitivesarraybounds, &m_primitivesArray);
+
+	fprintf(pfile, "#header.m_keyPointsArrayBounds:\n");
+	fprintf(pfile, "\t.Size = %d\n", keypointsarraybounds.Size);
+	fprintf(pfile, "\t.Capacity = %d\n", keypointsarraybounds.Capacity);
+	fprintf(pfile, "\t.ElementSize = %d\n", keypointsarraybounds.ElementSize);
+
+	fprintf(pfile, "#header.m_primitivesArrayBounds:\n");
+	fprintf(pfile, "\t.Size = %d\n", primitivesarraybounds.Size);
+	fprintf(pfile, "\t.Capacity = %d\n", primitivesarraybounds.Capacity);
+	fprintf(pfile, "\t.ElementSize = %d\n", primitivesarraybounds.ElementSize);
+
+	fprintf(pfile, "\n-------------------------------------\n");
+	return 0;
 }
 
 NLPATH_GEOMETRY::NLPATH_GEOMETRY(const Nu32 pathpoints_capacity, const Nu32 primitives_capacity)
 {
-//	m_flags = 0;
-	m_ds	= 0.0f;
+	//	m_flags = 0;
+	m_ds = 0.0f;
 	NSetupArray(&m_pathPointsArray, pathpoints_capacity, sizeof(NLPATH_POINT));
 	NSetupArray(&m_primitivesArray, primitives_capacity, sizeof(NLPATH_PRIMITIVE));
 
-
 #ifdef _NEDITOR
-	m_KeyPointExtend.x		=		DEFAULT_NLPATH_GEOMETRY_PATHPOINT_XEXTEND;
-	m_KeyPointExtend.y		=		DEFAULT_NLPATH_GEOMETRY_PATHPOINT_YEXTEND;
-	m_ClothoidDrawAccuracy	=		DEFAULT_NLPATH_GEOMETRY_CLOTHOID_DRAW_ACCURACY;
-	m_ArcDrawAccuracy		=		DEFAULT_NLPATH_GEOMETRY_ARC_DRAW_ACCURACY;
+	m_KeyPointExtend.x = DEFAULT_NLPATH_GEOMETRY_PATHPOINT_XEXTEND;
+	m_KeyPointExtend.y = DEFAULT_NLPATH_GEOMETRY_PATHPOINT_YEXTEND;
+	m_ClothoidDrawAccuracy = DEFAULT_NLPATH_GEOMETRY_CLOTHOID_DRAW_ACCURACY;
+	m_ArcDrawAccuracy = DEFAULT_NLPATH_GEOMETRY_ARC_DRAW_ACCURACY;
 
-	NSetColorf(&m_SegmentColor,		DEFAULT_NLPATH_GEOMETRY_SEGMENT_COLOR);
-	NSetColorf(&m_ClothoidColorA,	DEFAULT_NLPATH_GEOMETRY_CLOTHOID_COLORA);
-	NSetColorf(&m_ClothoidColorB,	DEFAULT_NLPATH_GEOMETRY_CLOTHOID_COLORB);
-	NSetColorf(&m_ArcColor,			DEFAULT_NLPATH_GEOMETRY_ARC_COLOR);
-	NSetColorf(&m_KeyPointColor,	DEFAULT_NLPATH_GEOMETRY_PATHPOINT_COLOR);
-	NSetColorf(&m_KeyPointIDColor,	DEFAULT_NLPATH_GEOMETRY_PATHPOINTID_COLOR);
-	NSetColorf(&m_WarningColor,		DEFAULT_NLPATH_GEOMETRY_WARNING_COLOR);
+	NSetColorf(&m_SegmentColor, DEFAULT_NLPATH_GEOMETRY_SEGMENT_COLOR);
+	NSetColorf(&m_ClothoidColorA, DEFAULT_NLPATH_GEOMETRY_CLOTHOID_COLORA);
+	NSetColorf(&m_ClothoidColorB, DEFAULT_NLPATH_GEOMETRY_CLOTHOID_COLORB);
+	NSetColorf(&m_ArcColor, DEFAULT_NLPATH_GEOMETRY_ARC_COLOR);
+	NSetColorf(&m_KeyPointColor, DEFAULT_NLPATH_GEOMETRY_PATHPOINT_COLOR);
+	NSetColorf(&m_KeyPointIDColor, DEFAULT_NLPATH_GEOMETRY_PATHPOINTID_COLOR);
+	NSetColorf(&m_WarningColor, DEFAULT_NLPATH_GEOMETRY_WARNING_COLOR);
 #endif
 }
 
@@ -60,39 +83,38 @@ NLPATH_GEOMETRY::~NLPATH_GEOMETRY()
 	NClearArray(&m_primitivesArray, NULL);
 }
 
-NLPATH_GEOMETRY::NLPATH_GEOMETRY(NLPATH_GEOMETRY const & from)
+NLPATH_GEOMETRY::NLPATH_GEOMETRY(NLPATH_GEOMETRY const &from)
 {
-//	m_flags = from.m_flags;
-	m_ds	= from.m_ds;
-	NSetupArray(&m_pathPointsArray,  from.m_pathPointsArray.Capacity, sizeof(NLPATH_POINT));
+	//	m_flags = from.m_flags;
+	m_ds = from.m_ds;
+	NSetupArray(&m_pathPointsArray, from.m_pathPointsArray.Capacity, sizeof(NLPATH_POINT));
 	NSetupArray(&m_primitivesArray, from.m_primitivesArray.Capacity, sizeof(NLPATH_PRIMITIVE));
 
-	NCopyArray(&m_pathPointsArray,  &from.m_pathPointsArray);
+	NCopyArray(&m_pathPointsArray, &from.m_pathPointsArray);
 	NCopyArray(&m_primitivesArray, &from.m_primitivesArray);
 
 #ifdef _NEDITOR
-	m_KeyPointExtend		= from.m_KeyPointExtend;
-	m_ClothoidDrawAccuracy	= from.m_ClothoidDrawAccuracy;
-	m_ArcDrawAccuracy		= from.m_ArcDrawAccuracy;
+	m_KeyPointExtend = from.m_KeyPointExtend;
+	m_ClothoidDrawAccuracy = from.m_ClothoidDrawAccuracy;
+	m_ArcDrawAccuracy = from.m_ArcDrawAccuracy;
 
-	m_SegmentColor			= from.m_SegmentColor;
-	m_ClothoidColorA		= from.m_ClothoidColorA;
-	m_ClothoidColorB		= from.m_ClothoidColorB;
-	m_ArcColor				= from.m_ArcColor;
-	m_KeyPointColor			= from.m_KeyPointColor;
-	m_KeyPointIDColor		= from.m_KeyPointIDColor;
-	m_WarningColor			= from.m_WarningColor;
+	m_SegmentColor = from.m_SegmentColor;
+	m_ClothoidColorA = from.m_ClothoidColorA;
+	m_ClothoidColorB = from.m_ClothoidColorB;
+	m_ArcColor = from.m_ArcColor;
+	m_KeyPointColor = from.m_KeyPointColor;
+	m_KeyPointIDColor = from.m_KeyPointIDColor;
+	m_WarningColor = from.m_WarningColor;
 #endif
-
 }
 
-NLPATH_GEOMETRY& NLPATH_GEOMETRY::operator=(const NLPATH_GEOMETRY& from)
+NLPATH_GEOMETRY &NLPATH_GEOMETRY::operator=(const NLPATH_GEOMETRY &from)
 {
 	// Si une des deux erreurs suivantes se produisent, il faut envisager un 'erase' des arrays de destination avant de copier.
-	NErrorIf(NLclearNLPathPointInArrayCallBack != NULL, NERROR_SYSTEM_CHECK);		// Cela signifie que les path points poss�dent maintenant une call back 'clear en array', donc qu'il y a de la m�moire � d�sallouer !!! 
-	NErrorIf(NLclearNLPathPrimitiveInArrayCallBack != NULL, NERROR_SYSTEM_CHECK);	// Cela signifie que les path primitives poss�dent maintenant une call back 'clear en array', donc qu'il y a de la m�moire � d�sallouer !!! 
+	NErrorIf(NLclearNLPathPointInArrayCallBack != NULL, NERROR_SYSTEM_CHECK);	  // Cela signifie que les path points poss�dent maintenant une call back 'clear en array', donc qu'il y a de la m�moire � d�sallouer !!!
+	NErrorIf(NLclearNLPathPrimitiveInArrayCallBack != NULL, NERROR_SYSTEM_CHECK); // Cela signifie que les path primitives poss�dent maintenant une call back 'clear en array', donc qu'il y a de la m�moire � d�sallouer !!!
 
-//	m_flags = from.m_flags;
+	//	m_flags = from.m_flags;
 	m_ds = from.m_ds;
 	NCopyArray(&m_pathPointsArray, &from.m_pathPointsArray);
 	NCopyArray(&m_primitivesArray, &from.m_primitivesArray);
@@ -113,24 +135,24 @@ NLPATH_GEOMETRY& NLPATH_GEOMETRY::operator=(const NLPATH_GEOMETRY& from)
 	return *this;
 }
 
-Nu32 NLPATH_GEOMETRY::write(FILE* pfile)
+Nu32 NLPATH_GEOMETRY::write(FILE *pfile)
 {
 	// 1) �criture Version
-	Nu32	version_u32 = VERSION_NLPATH_GEOMETRY_HEADER;
+	Nu32 version_u32 = VERSION_NLPATH_GEOMETRY_HEADER;
 	if (fwrite(&version_u32, sizeof(Nu32), 1, pfile) != 1)
 		return 0;
 
 	// 2) �criture Header
-	NLPATH_GEOMETRY_HEADER	header;
-//	header.m_flags					= m_flags;
-	header.m_ds						= m_ds;
-	//header.m_keyPointsArraySize		= m_pathPointsArray.Size;
-	//header.m_primitivesArraySize	= m_primitivesArray.Size;;
+	NLPATH_GEOMETRY_HEADER header;
+	//	header.m_flags					= m_flags;
+	header.m_ds = m_ds;
+	// header.m_keyPointsArraySize		= m_pathPointsArray.Size;
+	// header.m_primitivesArraySize	= m_primitivesArray.Size;;
 	NGetArrayBounds(&header.m_keyPointsArrayBounds, &m_pathPointsArray);
 	NGetArrayBounds(&header.m_primitivesArrayBounds, &m_primitivesArray);
 	if (fwrite(&header, sizeof(NLPATH_GEOMETRY_HEADER), 1, pfile) != 1)
 		return 0;
-	
+
 	// 3) �criture m_pathPointsArray � la main et en une fois
 	if (m_pathPointsArray.Size)
 	{
@@ -147,14 +169,14 @@ Nu32 NLPATH_GEOMETRY::write(FILE* pfile)
 	return 1;
 }
 
-Nu32 NLPATH_GEOMETRY::read(FILE* pfile)
+Nu32 NLPATH_GEOMETRY::read(FILE *pfile)
 {
 	// 1) lecture Version
-	Nu32	version_u32;
+	Nu32 version_u32;
 	if (fread(&version_u32, sizeof(Nu32), 1, pfile) != 1)
 		return 0;
 	// 2) lecture Header
-	NLPATH_GEOMETRY_HEADER	header;
+	NLPATH_GEOMETRY_HEADER header;
 
 	switch (NGETVERSION_MAIN(version_u32))
 	{
@@ -162,16 +184,15 @@ Nu32 NLPATH_GEOMETRY::read(FILE* pfile)
 	case NGETVERSION_MAIN(VERSION_NLPATH_GEOMETRY_HEADER):
 		if (fread(&header, sizeof(NLPATH_GEOMETRY_HEADER), 1, pfile) != 1)
 			return 0;
-	//	m_flags	=	header.m_flags;
-		m_ds	=	header.m_ds;
+		//	m_flags	=	header.m_flags;
+		m_ds = header.m_ds;
 
 		// Recherche de potentiels pbs sur les arrays.
 		// ('NIsArrayCorruptedOrInconsistent' se charge de faire un setup auto en cas de array full of ZEROS)
-		if (NIsArrayCorruptedOrInconsistent(&m_pathPointsArray, &header.m_keyPointsArrayBounds,NTRUE))
+		if (NIsArrayCorruptedOrInconsistent(&m_pathPointsArray, &header.m_keyPointsArrayBounds, NTRUE))
 			return 0;
-		if (NIsArrayCorruptedOrInconsistent(&m_primitivesArray, &header.m_primitivesArrayBounds,NTRUE))
+		if (NIsArrayCorruptedOrInconsistent(&m_primitivesArray, &header.m_primitivesArrayBounds, NTRUE))
 			return 0;
-
 
 		NResizeArray(&m_pathPointsArray, header.m_keyPointsArrayBounds.Size, NULL, NULL);
 		NResizeArray(&m_primitivesArray, header.m_primitivesArrayBounds.Size, NULL, NULL);
@@ -180,7 +201,6 @@ Nu32 NLPATH_GEOMETRY::read(FILE* pfile)
 		{
 			if (fread(m_pathPointsArray.pFirst, m_pathPointsArray.ElementSize, m_pathPointsArray.Size, pfile) != m_pathPointsArray.Size)
 				return 0;
-
 		}
 		if (m_primitivesArray.Size)
 		{
@@ -195,8 +215,7 @@ Nu32 NLPATH_GEOMETRY::read(FILE* pfile)
 	return 0;
 }
 
-
-void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const Nf32 s)const
+void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const Nf32 s) const
 {
 	NErrorIf(s < 0.0f, NERROR_VALUE_OUTOFRANGE); // inf�rieure � l'abscisse minimale
 	NErrorIf(s > m_ds, NERROR_VALUE_OUTOFRANGE); // sup�rieure � l'abscisse maximale
@@ -204,7 +223,7 @@ void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const Nf32 s)const
 	// sera plus grande que la longueur totale du chemin !!! Cela est du � l'impr�cision potentielle du calcul des KINs, car pour eux, le s est le resultat
 	// de l'integration de la vitesse, de l'acceleration et du jerk au cours du temps ...
 	// Pour l'instant ce cas n'est pas g�r� !!! IL VA FALLOIR LE FAIRE !!! SINON ...
-	// .... plantage assur� avec la fonction NLPATH_GEOMETRY::getPathPoint, en effet la boucle "while (pkp1->s < s) { pkp1++; pprim++; }" peut engendrer un d�passement ! 
+	// .... plantage assur� avec la fonction NLPATH_GEOMETRY::getPathPoint, en effet la boucle "while (pkp1->s < s) { pkp1++; pprim++; }" peut engendrer un d�passement !
 	// .... en debug, le test en entr�e de fonction: "NErrorIf(s > m_ds, NERROR_VALUE_OUTOFRANGE)" crash si s est plus grand que l'abscisse max du path.
 	// .... en release, la boucle "while (pkp1->s < s) { pkp1++; pprim++; }" g�n�rera un pkp1 hors de l'array ce qui est MAL MAL MAL !
 	//
@@ -213,25 +232,28 @@ void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const Nf32 s)const
 	//  Pourquoi le dernier Kin du MP ? Parceque le param "S" pass� lors de l'appel � getPathPoint doit toujours g�n�rer un r�sultat valide quand ce S provient d'un des KINs calcul�s
 	// lors de la creation du motion profile de d�placement le long de NLPATH_GEOMETRY
 	// Recherche de S
-	NLPATH_POINT		*pkp1	= ((NLPATH_POINT*)m_pathPointsArray.pFirst) + 1;
-	NLPATH_PRIMITIVE	*pprim	= (NLPATH_PRIMITIVE*)m_primitivesArray.pFirst;
-	
+	NLPATH_POINT *pkp1 = ((NLPATH_POINT *)m_pathPointsArray.pFirst) + 1;
+	NLPATH_PRIMITIVE *pprim = (NLPATH_PRIMITIVE *)m_primitivesArray.pFirst;
 
-	while (pkp1->s < s) { pkp1++; pprim++; }
+	while (pkp1->s < s)
+	{
+		pkp1++;
+		pprim++;
+	}
 	if (s == pkp1->s)
 		*pres = *pkp1;
 	else
 		getPathPoint(pres, pkp1, pprim, s);
 }
-void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const NLPATH_POINT *pkp1, const NLPATH_PRIMITIVE *pprim,  const Nf32 s)const
+void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const NLPATH_POINT *pkp1, const NLPATH_PRIMITIVE *pprim, const Nf32 s) const
 {
 	// NErrorIf(s > pkp1->s, NERROR_VALUE_OUTOFRANGE); // sup�rieure � l'abscisse de pkp1
 
-	NVEC2				A;
-	Nf32				ang;
-	Nf32				slocal;
-	Nf32				theta;
-	Nf64				cf, sf, x, y;
+	NVEC2 A;
+	Nf32 ang;
+	Nf32 slocal;
+	Nf32 theta;
+	Nf64 cf, sf, x, y;
 
 	// v�rification de S
 	/*
@@ -244,9 +266,8 @@ void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const NLPATH_POINT *pkp1,
 	#endif
 	*/
 
-	const NLPATH_POINT	*pkp0 = pkp1 - 1;
-//	NErrorIf(s < pkp0->s, NERROR_VALUE_OUTOFRANGE); // inf�rieure � l'abscisse de pkp0
-
+	const NLPATH_POINT *pkp0 = pkp1 - 1;
+	//	NErrorIf(s < pkp0->s, NERROR_VALUE_OUTOFRANGE); // inf�rieure � l'abscisse de pkp0
 
 	slocal = s - pkp0->s;
 	pres->s = s;
@@ -254,8 +275,8 @@ void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const NLPATH_POINT *pkp1,
 	switch (pprim->m_core.m_id)
 	{
 	case NLPATH_PRIMITIVE_ID_SEGMENT:
-		pres->p.x = pkp0->p.x + pkp1->u.x*slocal;
-		pres->p.y = pkp0->p.y + pkp1->u.y*slocal;
+		pres->p.x = pkp0->p.x + pkp1->u.x * slocal;
+		pres->p.y = pkp0->p.y + pkp1->u.y * slocal;
 		pres->u = pkp1->u;
 		pres->k = pkp1->k;
 		return;
@@ -273,12 +294,12 @@ void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const NLPATH_POINT *pkp1,
 			pres->p.y = (Nf32)(pkp1->p.y + pprim->m_clothoid.m_i.y * x + pprim->m_clothoid.m_j.y * y);
 
 			// tangente en S:
-			theta = pprim->m_clothoid.m_sigma*slocal*slocal / 2.0f;
+			theta = pprim->m_clothoid.m_sigma * slocal * slocal / 2.0f;
 			x = cos(theta);
 			y = sin(theta);
 			pres->u.x = (Nf32)(-pprim->m_clothoid.m_i.x * x - pprim->m_clothoid.m_j.x * y);
 			pres->u.y = (Nf32)(-pprim->m_clothoid.m_i.y * x - pprim->m_clothoid.m_j.y * y);
-			pres->k = slocal * pkp0->k/*pprim->m_clothoid.m_km*/ / pprim->m_core.m_l;
+			pres->k = slocal * pkp0->k /*pprim->m_clothoid.m_km*/ / pprim->m_core.m_l;
 		}
 		else
 		{
@@ -290,7 +311,7 @@ void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const NLPATH_POINT *pkp1,
 			pres->p.y = (Nf32)(pkp0->p.y + pprim->m_clothoid.m_i.y * x + pprim->m_clothoid.m_j.y * y);
 
 			// tangente en S:
-			theta = pprim->m_clothoid.m_sigma*slocal*slocal / 2.0f;
+			theta = pprim->m_clothoid.m_sigma * slocal * slocal / 2.0f;
 			x = cos(theta);
 			y = sin(theta);
 			pres->u.x = (Nf32)(pprim->m_clothoid.m_i.x * x + pprim->m_clothoid.m_j.x * y);
@@ -337,10 +358,10 @@ void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT *pres, const NLPATH_POINT *pkp1,
 	}
 }
 
-const NLPATH_POINT* NLPATH_GEOMETRY::getPathPoint(const Nu32 index)
+const NLPATH_POINT *NLPATH_GEOMETRY::getPathPoint(const Nu32 index)
 {
 	if (index < m_pathPointsArray.Size)
-		return (NLPATH_POINT*)NGetArrayPtr(&m_pathPointsArray, index);
+		return (NLPATH_POINT *)NGetArrayPtr(&m_pathPointsArray, index);
 	else
 		return nullptr;
 }
@@ -433,37 +454,37 @@ void NLPATH_GEOMETRY::getPathPoint(NLPATH_POINT_S *pres, const NLPATH_POINT *pkp
 */
 
 #ifdef _NEDITOR
-void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width)
+void NLPATH_GEOMETRY::draw(const NMATRIX *pmx, const Nf32 path_width)
 {
-	NLPATH_POINT		*pkp0, *pkp1;
-	NLPATH_PRIMITIVE	*pprim;
-	NVEC3f32			u,vi,vj;
-	NVEC3f32			v0, v1;
-	NVEC3f32			vl0, vl1;
-	NVEC3f32			vr0, vr1;
-	NVEC3f32			vc;
-	NVEC2f32			tgt;
-	Nf32				half_track = path_width / 2.0f;
-	Nf32				sm,s, x, y,ang;
-	Nf32				xl, yl, xr, yr;
-	Nf32				theta;
-	Nf32				cf, sf;
-	NCOLOR				left_color = { NCOLOR_PRESET3F_GREEN,1 };
-	NCOLOR				right_color = { NCOLOR_PRESET3F_ORANGE_GOLD,1 };
-	Nu32				i,j;
+	NLPATH_POINT *pkp0, *pkp1;
+	NLPATH_PRIMITIVE *pprim;
+	NVEC3f32 u, vi, vj;
+	NVEC3f32 v0, v1;
+	NVEC3f32 vl0, vl1;
+	NVEC3f32 vr0, vr1;
+	NVEC3f32 vc;
+	NVEC2f32 tgt;
+	Nf32 half_track = path_width / 2.0f;
+	Nf32 sm, s, x, y, ang;
+	Nf32 xl, yl, xr, yr;
+	Nf32 theta;
+	Nf32 cf, sf;
+	NCOLOR left_color = {NCOLOR_PRESET3F_GREEN, 1};
+	NCOLOR right_color = {NCOLOR_PRESET3F_ORANGE_GOLD, 1};
+	Nu32 i, j;
 
 	// On ne trace un chemin ( et ses keypoints) que si il y a au moins une primitive )
 
 	if (m_primitivesArray.Size)
 	{
-		Nchar			txt[8];
-		NUT_DRAWTEXT	drawtxt;
+		Nchar txt[8];
+		NUT_DRAWTEXT drawtxt;
 		Nmem0(&drawtxt, NUT_DRAWTEXT);
-		drawtxt.Size	= m_KeyPointExtend.y;
-		drawtxt.Color	= m_KeyPointIDColor;
+		drawtxt.Size = m_KeyPointExtend.y;
+		drawtxt.Color = m_KeyPointIDColor;
 
 		// Tracage Keypoints
-		pkp0 = (NLPATH_POINT*)m_pathPointsArray.pFirst;
+		pkp0 = (NLPATH_POINT *)m_pathPointsArray.pFirst;
 		for (i = 0; i < m_pathPointsArray.Size; i++, pkp0++)
 		{
 			// KeyPoint marker and Id:
@@ -474,20 +495,20 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width)
 
 			// Keypoint "orthogonal basis"
 			NMulVector2ByMatrix3O(&u, pmx, &pkp0->u);
-			v1.x = v0.x + u.x * m_KeyPointExtend.x*2.0f;
-			v1.y = v0.y + u.y * m_KeyPointExtend.x*2.0f;
-			v1.z =		  u.z * m_KeyPointExtend.x*2.0f; // est suppos� �tre null
+			v1.x = v0.x + u.x * m_KeyPointExtend.x * 2.0f;
+			v1.y = v0.y + u.y * m_KeyPointExtend.x * 2.0f;
+			v1.z = u.z * m_KeyPointExtend.x * 2.0f; // est suppos� �tre null
 			NUT_Draw_Segment(&v0, &v1, &m_WarningColor);
 			v1.x = v0.x - u.y * m_KeyPointExtend.x * 2.0f;
 			v1.y = v0.y + u.x * m_KeyPointExtend.x * 2.0f;
-			v1.z =		  u.z * m_KeyPointExtend.x * 2.0f; // est suppos� �tre null
+			v1.z = u.z * m_KeyPointExtend.x * 2.0f; // est suppos� �tre null
 
 			NUT_Draw_Segment(&v0, &v1, &m_WarningColor);
 		}
 
-		pkp0 = (NLPATH_POINT*)m_pathPointsArray.pFirst;
+		pkp0 = (NLPATH_POINT *)m_pathPointsArray.pFirst;
 		pkp1 = pkp0 + 1;
-		pprim = (NLPATH_PRIMITIVE*)m_primitivesArray.pFirst;
+		pprim = (NLPATH_PRIMITIVE *)m_primitivesArray.pFirst;
 		for (i = 0; i < m_primitivesArray.Size; i++, pprim++, pkp0 = pkp1, pkp1++)
 		{
 			switch (pprim->m_core.m_id)
@@ -503,7 +524,6 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width)
 				*/
 				NMulVector2ByMatrixO(&v0, pmx, &pkp0->p);
 				NMulVector2ByMatrixO(&v1, pmx, &pkp1->p);
-				
 
 				if (ISFLAG_ON(pprim->m_core.m_flags, FLAG_NLPATH_PRIMITIVE_RAW))
 					NUT_Draw_Segment(&v0, &v1, &m_WarningColor);
@@ -527,7 +547,6 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width)
 					vl1.y = v1.y + u.x * half_track;
 					vl1.z = 0.0f;
 					NUT_Draw_Segment(&vl0, &vl1, &left_color);
-
 				}
 				break;
 
@@ -540,18 +559,18 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width)
 				NMulVector2ByMatrixO(&v0, pmx, &pkp0->p);
 				sm = pprim->m_core.m_l;
 
-				//if (half_track)
+				// if (half_track)
 				//{
-					NMulVector2ByMatrix3O(&u, pmx, &pkp0->u);
-					vr0.x = v0.x + u.y * half_track;
-					vr0.y = v0.y - u.x * half_track;
-					vr0.z = 0.0f;
-					vr1.z = 0.0f;
+				NMulVector2ByMatrix3O(&u, pmx, &pkp0->u);
+				vr0.x = v0.x + u.y * half_track;
+				vr0.y = v0.y - u.x * half_track;
+				vr0.z = 0.0f;
+				vr1.z = 0.0f;
 
-					vl0.x = v0.x - u.y * half_track;
-					vl0.y = v0.y + u.x * half_track;
-					vl0.z = 0.0f;
-					vl1.z = 0.0f;
+				vl0.x = v0.x - u.y * half_track;
+				vl0.y = v0.y + u.x * half_track;
+				vl0.z = 0.0f;
+				vl1.z = 0.0f;
 				//}
 
 				NMulVector2ByMatrix3O(&vi, pmx, &pprim->m_clothoid.m_i);
@@ -593,15 +612,14 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width)
 				else
 				{
 					vc = v0;
-				
 
 					for (j = 0; j <= m_ClothoidDrawAccuracy; j++, v0 = v1, vr0 = vr1, vl0 = vl1)
 					{
 						s = (sm * (Nf32)j / (Nf32)m_ClothoidDrawAccuracy);
-						NFresnelIntegralsf32(s / pprim->m_clothoid.m_param, &cf, &sf);	// |
-						x = pprim->m_clothoid.m_param * cf;								// |-- Ref. [1.6] page 42
-						y = pprim->m_clothoid.m_param * sf;								// |	
-					
+						NFresnelIntegralsf32(s / pprim->m_clothoid.m_param, &cf, &sf); // |
+						x = pprim->m_clothoid.m_param * cf;							   // |-- Ref. [1.6] page 42
+						y = pprim->m_clothoid.m_param * sf;							   // |
+
 						v1.x = vc.x + vi.x * x + vj.x * y;
 						v1.y = vc.y + vi.y * x + vj.y * y;
 						v1.z = 0.0f;
@@ -635,18 +653,18 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width)
 				v0.z = 0.0f;
 				*/
 				NMulVector2ByMatrixO(&v0, pmx, &pkp0->p);
-				//if (half_track)
+				// if (half_track)
 				//{
-					NMulVector2ByMatrix3O(&u, pmx, &pkp0->u);
-					vr0.x = v0.x + u.y * half_track;
-					vr0.y = v0.y - u.x * half_track;
-					vr0.z = 0.0f;
-					vr1.z = 0.0f;
+				NMulVector2ByMatrix3O(&u, pmx, &pkp0->u);
+				vr0.x = v0.x + u.y * half_track;
+				vr0.y = v0.y - u.x * half_track;
+				vr0.z = 0.0f;
+				vr1.z = 0.0f;
 
-					vl0.x = v0.x - u.y * half_track;
-					vl0.y = v0.y + u.x * half_track;
-					vl0.z = 0.0f;
-					vl1.z = 0.0f;
+				vl0.x = v0.x - u.y * half_track;
+				vl0.y = v0.y + u.x * half_track;
+				vl0.z = 0.0f;
+				vl1.z = 0.0f;
 				//}
 				NMulVector2ByMatrixO(&vc, pmx, &pprim->m_arc.m_center);
 				NMulVector2ByMatrix3O(&vi, pmx, &pprim->m_arc.m_i);
@@ -686,7 +704,6 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width)
 							yr = sin(ang) * (pprim->m_arc.m_radius + half_track);
 						}
 
-
 						vl1.x = vc.x + vi.x * xl + vj.x * yl;
 						vl1.y = vc.y + vi.y * xl + vj.y * yl;
 
@@ -706,7 +723,7 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width)
 	}
 }
 
-void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32 s0, const Nf32 s1)
+void NLPATH_GEOMETRY::draw(const NMATRIX *pmx, const Nf32 path_width, const Nf32 s0, const Nf32 s1)
 {
 	NErrorIf(s0 < 0.0f, NERROR_VALUE_OUTOFRANGE); // inf�rieure � l'abscisse minimale
 	NErrorIf(s0 > m_ds, NERROR_VALUE_OUTOFRANGE); // sup�rieure � l'abscisse maximale
@@ -715,39 +732,38 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 
 	if (m_primitivesArray.Size < 1)
 		return;
-	Nu32				j;
+	Nu32 j;
 
 	// specifique Clothoid
-	Nf32				s, ang;
-	Nf32				theta;
-	Nf32				cf, sf;
-	NVEC2f32			tgt;
+	Nf32 s, ang;
+	Nf32 theta;
+	Nf32 cf, sf;
+	NVEC2f32 tgt;
 
-	//specific arc
-	Nf32				ang_a;
-	Nf32				ang_b;
-	Nf32				ang_omega;
+	// specific arc
+	Nf32 ang_a;
+	Nf32 ang_b;
+	Nf32 ang_omega;
 
-	// Basic position / direction transform�es dans la base 'pmx'	
-	NVEC3f32			v0, v1;
-	NVEC3f32			va, vb;
-	NVEC3f32			u;
+	// Basic position / direction transform�es dans la base 'pmx'
+	NVEC3f32 v0, v1;
+	NVEC3f32 va, vb;
+	NVEC3f32 u;
 	v0.z = 0.0f;
 	v1.z = 0.0f;
 	va.z = 0.0f;
 	vb.z = 0.0f;
-	u.z  = 0.0f;
+	u.z = 0.0f;
 
 	// halftrack
-	NVEC3f32			vla, vlb;
-	NVEC3f32			vra, vrb;
+	NVEC3f32 vla, vlb;
+	NVEC3f32 vra, vrb;
 	vra.z = 0.0f;
 	vrb.z = 0.0f;
 	vla.z = 0.0f;
 	vlb.z = 0.0f;
 
-
-	NVEC3f32			vo, vi, vj; // origine, axe X, axe Y
+	NVEC3f32 vo, vi, vj; // origine, axe X, axe Y
 	/*
 	// Pr�paration Affichage Texte
 	Nchar			txt[8];
@@ -757,20 +773,25 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 	drawtxt.Color = m_KeyPointIDColor;
 	*/
 	// Pr�parations diverses
-	NCOLOR* pcolor = &m_WarningColor;			// tmp: couleur de tracage
-	Nf32	half_track = path_width / 2.0f;		// Demi largeur du path
-	Nu32	jmx;								// nbre de steps pour le tracage des Arc et clothoides ( d�pend des accuracy et de la longueur d'arc � tracer ... )
-	Nf32	x, y, xl, yl, xr, yr;
+	NCOLOR *pcolor = &m_WarningColor;	 // tmp: couleur de tracage
+	Nf32 half_track = path_width / 2.0f; // Demi largeur du path
+	Nu32 jmx;							 // nbre de steps pour le tracage des Arc et clothoides ( d�pend des accuracy et de la longueur d'arc � tracer ... )
+	Nf32 x, y, xl, yl, xr, yr;
 
 	// Recherche de la primitive portant s0
-	NLPATH_POINT* pkp0 = NULL;
-	NLPATH_POINT* pkp1 = ((NLPATH_POINT*)m_pathPointsArray.pFirst) + 1;
-	NLPATH_PRIMITIVE* pprim = (NLPATH_PRIMITIVE*)m_primitivesArray.pFirst;
-	while (pkp1->s < s0) { pkp1++; pprim++; }
+	NLPATH_POINT *pkp0 = NULL;
+	NLPATH_POINT *pkp1 = ((NLPATH_POINT *)m_pathPointsArray.pFirst) + 1;
+	NLPATH_PRIMITIVE *pprim = (NLPATH_PRIMITIVE *)m_primitivesArray.pFirst;
+	while (pkp1->s < s0)
+	{
+		pkp1++;
+		pprim++;
+	}
 	// Recul de 1 purement 'techniqie' pour 'coller' avec la boucle de traitement qui avance de 1 � chaque tour d�s le d�but du premier tour.
-	pprim--; pkp1--; 
+	pprim--;
+	pkp1--;
 
-	// Initialisation des abscisses de l'intervalle de tracage 
+	// Initialisation des abscisses de l'intervalle de tracage
 	Nf32 sa = s0;
 	Nf32 sb = s0;
 	Nf32 slocal_a, slocal_b;
@@ -778,11 +799,11 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 	while (sb < s1)
 	{
 		// Primitive suivante.
-		pprim ++;
+		pprim++;
 		pkp0 = pkp1;
-		pkp1 ++;
+		pkp1++;
 
-		// D�finition des abscisses de l'intervalle de tracage 
+		// D�finition des abscisses de l'intervalle de tracage
 		sa = sb;
 		sb = NMIN(s1, pkp1->s);
 
@@ -794,7 +815,7 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 			slocal_b = sb - pkp0->s;
 
 			NMulVector2ByMatrixO(&v0, pmx, &pkp0->p);
-			//NMulVector2ByMatrixO(&v1, pmx, &pkp1->p);
+			// NMulVector2ByMatrixO(&v1, pmx, &pkp1->p);
 			NMulVector2ByMatrix3O(&u, pmx, &pkp1->u);
 
 			va.x = v0.x + slocal_a * u.x;
@@ -823,8 +844,8 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 				vlb.y = vb.y + u.x * half_track;
 				NUT_Draw_Segment(&vla, &vlb, pcolor);
 
-			//	NUT_Draw_Segment(&vla, &vra, pcolor);
-			//	NUT_Draw_Segment(&vlb, &vrb, pcolor);
+				//	NUT_Draw_Segment(&vla, &vra, pcolor);
+				//	NUT_Draw_Segment(&vlb, &vrb, pcolor);
 			}
 			break;
 
@@ -835,17 +856,16 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 			if (ISFLAG_ON(pprim->m_core.m_flags, FLAG_NLPATH_CLOTHOID_SECOND))
 			{
 				// origine et abscisses 'locales'
-				NMulVector2ByMatrixO(&vo, pmx, &pkp1->p);	
+				NMulVector2ByMatrixO(&vo, pmx, &pkp1->p);
 				slocal_a = -(sa - pkp1->s);
 				slocal_b = -(sb - pkp1->s);
 
 				// Initialisation premier point d'abscisse sb:
-				NFresnelIntegralsf32(slocal_b / pprim->m_clothoid.m_param, &cf, &sf);	// |
-				x = pprim->m_clothoid.m_param * cf;										// |-- Ref. [1.6] page 42
-				y = pprim->m_clothoid.m_param * sf;										// |	
+				NFresnelIntegralsf32(slocal_b / pprim->m_clothoid.m_param, &cf, &sf); // |
+				x = pprim->m_clothoid.m_param * cf;									  // |-- Ref. [1.6] page 42
+				y = pprim->m_clothoid.m_param * sf;									  // |
 				vb.x = vo.x + vi.x * x + vj.x * y;
 				vb.y = vo.y + vi.y * x + vj.y * y;
-
 
 				if (half_track)
 				{
@@ -893,8 +913,8 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 						NUT_Draw_Segment(&vlb, &vla, pcolor);
 						NUT_Draw_Segment(&vrb, &vra, pcolor);
 
-					//	NUT_Draw_Segment(&vlb, &vrb, pcolor);
-					//	NUT_Draw_Segment(&vla, &vra, pcolor);
+						//	NUT_Draw_Segment(&vlb, &vrb, pcolor);
+						//	NUT_Draw_Segment(&vla, &vra, pcolor);
 					}
 				}
 			}
@@ -906,9 +926,9 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 				slocal_b = sb - pkp0->s;
 
 				// Initialisation premier point d'abscisse sa:
-				NFresnelIntegralsf32(slocal_a / pprim->m_clothoid.m_param, &cf, &sf);	// |
-				x = pprim->m_clothoid.m_param * cf;										// |-- Ref. [1.6] page 42
-				y = pprim->m_clothoid.m_param * sf;										// |	
+				NFresnelIntegralsf32(slocal_a / pprim->m_clothoid.m_param, &cf, &sf); // |
+				x = pprim->m_clothoid.m_param * cf;									  // |-- Ref. [1.6] page 42
+				y = pprim->m_clothoid.m_param * sf;									  // |
 				va.x = vo.x + vi.x * x + vj.x * y;
 				va.y = vo.y + vi.y * x + vj.y * y;
 				if (half_track)
@@ -927,14 +947,14 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 				}
 
 				// nbre de segments:
-				jmx = (Nu32)(((Nf32)m_ClothoidDrawAccuracy*(sb-sa)) / pprim->m_core.m_l) + 2; // +2 � cause du test j < jmx, de tel sorte que j 'finisse' sur ...+1 !
+				jmx = (Nu32)(((Nf32)m_ClothoidDrawAccuracy * (sb - sa)) / pprim->m_core.m_l) + 2; // +2 � cause du test j < jmx, de tel sorte que j 'finisse' sur ...+1 !
 
 				for (j = 0; j < jmx; j++, va = vb, vra = vrb, vla = vlb)
 				{
-					s = slocal_a + (slocal_b- slocal_a) * (Nf32)j / (Nf32)jmx;
-					NFresnelIntegralsf32(s / pprim->m_clothoid.m_param, &cf, &sf);	// |
-					x = pprim->m_clothoid.m_param * cf;								// |-- Ref. [1.6] page 42
-					y = pprim->m_clothoid.m_param * sf;								// |	
+					s = slocal_a + (slocal_b - slocal_a) * (Nf32)j / (Nf32)jmx;
+					NFresnelIntegralsf32(s / pprim->m_clothoid.m_param, &cf, &sf); // |
+					x = pprim->m_clothoid.m_param * cf;							   // |-- Ref. [1.6] page 42
+					y = pprim->m_clothoid.m_param * sf;							   // |
 					vb.x = vo.x + vi.x * x + vj.x * y;
 					vb.y = vo.y + vi.y * x + vj.y * y;
 					NUT_Draw_Segment(&va, &vb, pcolor);
@@ -956,8 +976,8 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 						NUT_Draw_Segment(&vla, &vlb, pcolor);
 						NUT_Draw_Segment(&vra, &vrb, pcolor);
 
-					//	NUT_Draw_Segment(&vlb, &vrb, pcolor);
-					//	NUT_Draw_Segment(&vla, &vra, pcolor);
+						//	NUT_Draw_Segment(&vlb, &vrb, pcolor);
+						//	NUT_Draw_Segment(&vla, &vra, pcolor);
 					}
 				}
 			}
@@ -969,11 +989,11 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 			NMulVector2ByMatrix3O(&vi, pmx, &pprim->m_arc.m_i);
 			NMulVector2ByMatrix3O(&vj, pmx, &pprim->m_arc.m_j);
 
-			slocal_a	= sa - pkp0->s;
-			slocal_b	= sb - pkp0->s;
-			ang_a		= slocal_a / pprim->m_arc.m_radius;
-			ang_b		= slocal_b / pprim->m_arc.m_radius;
-			ang_omega	= ang_b - ang_a;
+			slocal_a = sa - pkp0->s;
+			slocal_b = sb - pkp0->s;
+			ang_a = slocal_a / pprim->m_arc.m_radius;
+			ang_b = slocal_b / pprim->m_arc.m_radius;
+			ang_omega = ang_b - ang_a;
 
 			ang = pprim->m_arc.m_phi + ang_a;
 			x = cos(ang) * pprim->m_arc.m_radius;
@@ -1050,8 +1070,8 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 					NUT_Draw_Segment(&vla, &vlb, pcolor);
 					NUT_Draw_Segment(&vra, &vrb, pcolor);
 
-				//	NUT_Draw_Segment(&vlb, &vrb, pcolor);
-				//	NUT_Draw_Segment(&vla, &vra, pcolor);
+					//	NUT_Draw_Segment(&vlb, &vrb, pcolor);
+					//	NUT_Draw_Segment(&vla, &vra, pcolor);
 				}
 			}
 			break;
@@ -1062,32 +1082,32 @@ void NLPATH_GEOMETRY::draw(const NMATRIX* pmx, const Nf32 path_width, const Nf32
 	}
 }
 
-void NLPATH_GEOMETRY::drawCurvature(NL2DOCS* pocs, const NCOLORPICKPACK pickpack)
+void NLPATH_GEOMETRY::drawCurvature(NL2DOCS *pocs, const NCOLORPICKPACK pickpack)
 {
-	//NUT_DRAWTEXT		drawtxt;
-	NVEC3f32			txtpos;
-	Nchar				txt[8];
-	NLPATH_PRIMITIVE* pprim;
-	Nu32				i;
-
+	// NUT_DRAWTEXT		drawtxt;
+	NVEC3f32 txtpos;
+	Nchar txt[8];
+	NLPATH_PRIMITIVE *pprim;
+	Nu32 i;
 
 	Nf32 s = 0;
-	NUTDRAWVERTEX	va, vb;
+	NUTDRAWVERTEX va, vb;
 	va.Color0_4f = m_SegmentColor;
 	vb.Color0_4f = m_SegmentColor;
-	va.Position_3f.z = 0.0f; vb.Position_3f.z = 0.0f;
+	va.Position_3f.z = 0.0f;
+	vb.Position_3f.z = 0.0f;
 	vb.Position_3f.x = pocs->getOrigin()->x;
 
-	//Nmem0(&drawtxt, NUT_DRAWTEXT);
-	//drawtxt.Size = 0.015f;
-	//drawtxt.Color = m_KeyPointIDColor;
+	// Nmem0(&drawtxt, NUT_DRAWTEXT);
+	// drawtxt.Size = 0.015f;
+	// drawtxt.Color = m_KeyPointIDColor;
 	txtpos.x = pocs->getOrigin()->x;
 	txtpos.y = pocs->getOrigin()->y - pocs->getCaptionParam()->Size * 2.0f;
 	txtpos.z = 0.0f;
 	sprintf(txt, "%d", 0);
 	NUT_Draw_Text(txt, &txtpos, pocs->getCaptionParam());
 
-	pprim = (NLPATH_PRIMITIVE*)m_primitivesArray.pFirst;
+	pprim = (NLPATH_PRIMITIVE *)m_primitivesArray.pFirst;
 	for (i = 0; i < m_primitivesArray.Size; i++, pprim++)
 	{
 		va.Position_3f.x = vb.Position_3f.x;
@@ -1097,7 +1117,6 @@ void NLPATH_GEOMETRY::drawCurvature(NL2DOCS* pocs, const NCOLORPICKPACK pickpack
 		txtpos.x = vb.Position_3f.x;
 		sprintf(txt, "%d", i + 1);
 		NUT_Draw_Text(txt, &txtpos, pocs->getCaptionParam());
-
 
 		switch (pprim->m_core.m_id)
 		{
@@ -1113,8 +1132,10 @@ void NLPATH_GEOMETRY::drawCurvature(NL2DOCS* pocs, const NCOLORPICKPACK pickpack
 				vb.Color0_4f = m_SegmentColor;
 			}
 
-			va.Position_3f.y = pocs->transformY(0.0f);		NUT_DrawPencil_From(&va);
-			vb.Position_3f.y = pocs->transformY(0.0f);		NUT_DrawPencil_LineTo(&vb);
+			va.Position_3f.y = pocs->transformY(0.0f);
+			NUT_DrawPencil_From(&va);
+			vb.Position_3f.y = pocs->transformY(0.0f);
+			NUT_DrawPencil_LineTo(&vb);
 			break;
 
 		case NLPATH_PRIMITIVE_ID_CLOTHOID:
@@ -1122,15 +1143,19 @@ void NLPATH_GEOMETRY::drawCurvature(NL2DOCS* pocs, const NCOLORPICKPACK pickpack
 			{
 				va.Color0_4f = m_ClothoidColorB;
 				vb.Color0_4f = m_ClothoidColorB;
-				va.Position_3f.y = pocs->transformY(pprim->m_clothoid.m_km);	NUT_DrawPencil_From(&va);
-				vb.Position_3f.y = pocs->transformY(0.0f);						NUT_DrawPencil_LineTo(&vb);
+				va.Position_3f.y = pocs->transformY(pprim->m_clothoid.m_km);
+				NUT_DrawPencil_From(&va);
+				vb.Position_3f.y = pocs->transformY(0.0f);
+				NUT_DrawPencil_LineTo(&vb);
 			}
 			else
 			{
 				va.Color0_4f = m_ClothoidColorA;
 				vb.Color0_4f = m_ClothoidColorA;
-				va.Position_3f.y = pocs->transformY(0.0f);						NUT_DrawPencil_From(&va);
-				vb.Position_3f.y = pocs->transformY(pprim->m_clothoid.m_km);	NUT_DrawPencil_LineTo(&vb);
+				va.Position_3f.y = pocs->transformY(0.0f);
+				NUT_DrawPencil_From(&va);
+				vb.Position_3f.y = pocs->transformY(pprim->m_clothoid.m_km);
+				NUT_DrawPencil_LineTo(&vb);
 			}
 			break;
 
@@ -1145,8 +1170,10 @@ void NLPATH_GEOMETRY::drawCurvature(NL2DOCS* pocs, const NCOLORPICKPACK pickpack
 				va.Color0_4f = m_ArcColor;
 				vb.Color0_4f = m_ArcColor;
 			}
-			va.Position_3f.y = pocs->transformY(1.0f / pprim->m_arc.m_radius);	NUT_DrawPencil_From(&va);
-			vb.Position_3f.y = pocs->transformY(1.0f / pprim->m_arc.m_radius);	NUT_DrawPencil_LineTo(&vb);
+			va.Position_3f.y = pocs->transformY(1.0f / pprim->m_arc.m_radius);
+			NUT_DrawPencil_From(&va);
+			vb.Position_3f.y = pocs->transformY(1.0f / pprim->m_arc.m_radius);
+			NUT_DrawPencil_LineTo(&vb);
 			break;
 
 		default:

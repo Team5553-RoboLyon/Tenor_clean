@@ -90,6 +90,7 @@ public:
   double planteray_angle;
   int m_count;
   bool m_shoot;
+  int m_countCenter;
 
   bool m_preShoot;
 
@@ -121,7 +122,7 @@ public:
   NLTRAJECTORY_PACK m_TrajectoryPack;
   NLFOLLOWER_TANK m_follower;
 
-  AHRS m_gyro{frc::SerialPort::Port::kUSB};
+  // AHRS m_gyro{frc::SerialPort::Port::kUSB};
   int m_state;
   double m_encoderRightValue;
   double m_encoderLeftValue;

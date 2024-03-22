@@ -125,7 +125,7 @@
 
 #define SHOOTER_SPEED 0.5
 #define AMP_SHOOTER_SPEED 0.17
-#define NEAR_SPEED_SHOOT 0.45
+#define NEAR_SPEED_SHOOT 0.5
 #define STAGE_SPEED_SHOOT 0.7
 #define STOP_SHOOTER_SPEED 0.0
 
@@ -142,14 +142,14 @@
 #define STOP_FEEDER_SPEED 0.0
 
 #define AMP_ANGLE 100
-#define NEAR_ANGLE 36.5
+#define NEAR_ANGLE 40
 #define TAKE_ANGLE 17
 #define STAGE_ANGLE 23
 #define REST_ANGLE 0.0
 
 // #########################    CAMERA SETTINGS   ###################################
-#define SHOOTER_TABLE_SIZE 15
-#define ID_APRILTAG_MIDDLE 4
-#define ID_APRILTAG_LEFT 3
+#define SHOOTER_TABLE_SIZE 19
+#define ID_APRILTAG_MIDDLE 7
+#define ID_APRILTAG_LEFT 8
 
 // ##################################################################################

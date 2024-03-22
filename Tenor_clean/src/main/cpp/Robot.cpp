@@ -135,6 +135,10 @@ void Robot::ShootSwitch()
     m_robotContainer.m_shooter.SetShooter(shooter_speed);
     if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > SHOOTER_COUNT_READY)
     {
+      m_robotContainer.m_feeder.IsNoteLoaded = false;
+      m_robotContainer.m_planetary.SetSetpoint(REST_ANGLE);
+      m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+      m_robotContainer.m_shooter.SetShooter(STOP_SHOOTER_SPEED);
       m_stateShootSwitch = StateShootSwitch::End;
     }
     break;
@@ -203,10 +207,14 @@ void Robot::Shoot(double speed, double angle)
 
 void Robot::Center2Auto()
 {
+  m_countCenter++;
   switch (m_stateCenter2Auto)
   {
   case StateCenter2Auto::Nearshoot:
-    NearShoot();
+    if (m_countCenter > 50)
+    {
+      NearShoot();
+    }
     if (m_stateNearShoot == StateNearShoot::End)
     {
       m_stateTakeNote = StateTakeNote::Catch;
@@ -214,20 +222,16 @@ void Robot::Center2Auto()
     }
     break;
   case StateCenter2Auto::Backward:
-    m_robotContainer.m_drivetrain.DriveAuto(0.2, 0.0);
-    if (m_stateTakeNote == StateTakeNote::Recul)
-    {
-      m_robotContainer.m_drivetrain.DriveAuto(0.0, 0.0);
-      m_stateCenter2Auto = StateCenter2Auto::wait;
-    }
-    break;
-  case StateCenter2Auto::wait:
+    m_robotContainer.m_drivetrain.DriveAuto(0.3, 0.0);
     if (m_stateTakeNote == StateTakeNote::Loaded)
     {
+      m_robotContainer.m_drivetrain.DriveAuto(0.0, 0.0);
       m_stateCenter2Auto = StateCenter2Auto::Shooting;
     }
+    break;
   case StateCenter2Auto::Shooting:
-    Shoot(0.7, 23.0); // 0.7 23
+    // Shoot(0.2, 23.0); // 0.7 23
+    ShootSwitch();
     if (m_stateShootSwitch == StateShootSwitch::End)
     {
       m_stateCenter2Auto = StateCenter2Auto::End;
@@ -248,7 +252,7 @@ void Robot::ShootOnly()
     }
     break;
   case StateShootOnly::Backward:
-    m_robotContainer.m_drivetrain.DriveAuto(0.2, 0.0);
+    m_robotContainer.m_drivetrain.DriveAuto(0.3, 0.0);
     if (NABS(m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance()) > 2900.0 / (6.25 * 25.4 * 3.14))
     {
       m_stateShootOnly = StateShootOnly::End;
@@ -277,11 +281,12 @@ void Robot::DisabledExit() {}
 void Robot::AutonomousInit()
 {
   m_robotContainer.m_drivetrain.m_auto = true;
-  // m_stateTakeNote = StateTakeNote::nule;
+  m_stateTakeNote = StateTakeNote::nule;
+  m_countCenter = 0;
+  /*
+  m_TrajectoryPack.load("/home/lvuser/auto/test1m.trk");
 
-  m_TrajectoryPack.load("/home/lvuser/auto/1metre.trk");
-
-  m_gyro.Reset();
+  // m_gyro.Reset();
 
   m_CrtzL.m_forwardKv = 2.961074589352691f;
   m_CrtzL.m_backwardKv = 2.955671698032205f;         // = m_kv[1]
@@ -299,32 +304,34 @@ void Robot::AutonomousInit()
 
   m_follower.initialize(&m_TrajectoryPack);
   m_state = 0;
+  */
 
   // m_stateShootOnly = StateShootOnly::Nearshoot;
   // m_stateNearShoot = StateNearShoot::PreShoot;
-  // m_stateCenter2Auto = StateCenter2Auto::Nearshoot;
-  // m_stateNearShoot = StateNearShoot::PreShoot;
+
+  m_stateCenter2Auto = StateCenter2Auto::Nearshoot;
+  m_stateNearShoot = StateNearShoot::PreShoot;
 }
 
 void Robot::AutonomousPeriodic()
 {
-  // TakeNoteSwitch();
+  TakeNoteSwitch();
+  Center2Auto();
 
   // ShootOnly();
-  // Center2Auto();
-
+  /*
   NLRAMSETEOUTPUT output;
   NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
 
   NLTRJ_POSTED_MESSAGE message; // Posted Message
 
-  m_encoderLeftValue = m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance();
-  m_encoderRightValue = m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance();
+  m_encoderLeftValue = m_robotContainer.m_drivetrain.m_EncoderLeft.GetRaw() / 8192.0;
+  m_encoderRightValue = m_robotContainer.m_drivetrain.m_EncoderRight.GetRaw() / 8192.0;
   m_gyroAngle = 0.0;
   m_follower.estimate(m_encoderLeftValue, m_encoderRightValue, m_gyroAngle);
   m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
   pout = m_follower.compute();
-  m_robotContainer.m_drivetrain.SetVoltage(m_CrtzR.getVoltage(pout->m_rightVelocity, 0.0), m_CrtzL.getVoltage(pout->m_leftVelocity, 0.0));
+  m_robotContainer.m_drivetrain.SetVoltage(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
 
   m_VoltageLeft = m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration);
   m_VoltageRight = m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration);
@@ -375,10 +382,7 @@ void Robot::AutonomousPeriodic()
   {
     ShootSwitch();
   }
-  if (m_preShoot)
-  {
-    PreShoot();
-  }
+  */
   std::cout << "droite" << m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance() << std::endl;
   std::cout << "gauche" << m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance() << std::endl;
 }

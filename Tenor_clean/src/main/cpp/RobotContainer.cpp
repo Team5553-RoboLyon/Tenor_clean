@@ -19,6 +19,9 @@ RobotContainer::RobotContainer()
 
 void RobotContainer::ConfigureBindings()
 {
+  frc2::JoystickButton m_buttonSpit = frc2::JoystickButton(&m_joystickLeft, 1);
+  m_buttonSpit.WhileTrue(Spit(&m_feeder, &m_intake).ToPtr());
+
   m_buttonPreShoot.WhileTrue(PreShoot(&m_shooter, &m_planetary, &m_camera).ToPtr());
 
   m_buttonShoot.WhileTrue(Shoot(&m_shooter, &m_feeder, &m_planetary, &m_camera).ToPtr());
