@@ -8,6 +8,8 @@
 #include <frc2/command/CommandHelper.h>
 #include "subsystem/Intake.h"
 #include "subsystem/Feeder.h"
+#include "subsystem/Shooter.h"
+#include "subsystem/Planetary.h"
 
 /**
  * An example command.
@@ -16,11 +18,11 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class Spit
-    : public frc2::CommandHelper<frc2::Command, Spit>
+class Source
+    : public frc2::CommandHelper<frc2::Command, Source>
 {
 public:
-  Spit(Feeder *pFeeder, Intake *pIntake);
+  Source(Shooter *pShooter, Feeder *pFeeder, Intake *pIntake, Planetary *pPlanetary);
 
   void Initialize() override;
 
@@ -31,7 +33,21 @@ public:
   bool IsFinished() override;
 
 private:
+  enum class State
+  {
+    Take,
+    IsDetected,
+    Detected,
+    Catch,
+    Recul,
+    Loaded,
+    End
+  };
+  State m_state;
+
   int m_count;
+  Shooter *m_pShooter;
   Feeder *m_pFeeder;
   Intake *m_pIntake;
+  Planetary *m_pPlanetary;
 };

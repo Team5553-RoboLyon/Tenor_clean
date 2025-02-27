@@ -25,7 +25,7 @@
 #include "commands/NearShoot.h"
 #include "commands/AmpShoot.h"
 #include "commands/StageShoot.h"
-#include "commands/Spit.h"
+#include "commands/Source.h"
 
 class RobotContainer
 {
@@ -44,6 +44,7 @@ public:
   frc2::JoystickButton m_buttonStageShoot{&m_xboxControllerCopilote, 2};
 
   frc2::POVButton m_buttonTakeNote{&m_xboxControllerCopilote, 0};
+  frc2::POVButton m_buttonSource{&m_xboxControllerCopilote, 180};
 
   frc::Compressor m_compressor{frc::PneumaticsModuleType::CTREPCM};
 

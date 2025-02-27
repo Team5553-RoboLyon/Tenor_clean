@@ -211,7 +211,7 @@ void Robot::Center2Auto()
   switch (m_stateCenter2Auto)
   {
   case StateCenter2Auto::Nearshoot:
-    if (m_countCenter > 50)
+    if (m_countCenter > 0)
     {
       NearShoot();
     }
@@ -242,10 +242,15 @@ void Robot::Center2Auto()
 
 void Robot::ShootOnly()
 {
+  m_countOnly++;
   switch (m_stateShootOnly)
   {
   case StateShootOnly::Nearshoot:
-    NearShoot();
+    if (m_countOnly > 50)
+    {
+      NearShoot();
+    }
+
     if (m_stateNearShoot == StateNearShoot::End)
     {
       m_stateShootOnly = StateShootOnly::End;
@@ -283,6 +288,7 @@ void Robot::AutonomousInit()
   m_robotContainer.m_drivetrain.m_auto = true;
   m_stateTakeNote = StateTakeNote::nule;
   m_countCenter = 0;
+  m_countOnly = 0;
   /*
   m_TrajectoryPack.load("/home/lvuser/auto/test1m.trk");
 
@@ -306,19 +312,19 @@ void Robot::AutonomousInit()
   m_state = 0;
   */
 
-  // m_stateShootOnly = StateShootOnly::Nearshoot;
-  // m_stateNearShoot = StateNearShoot::PreShoot;
-
-  m_stateCenter2Auto = StateCenter2Auto::Nearshoot;
+  m_stateShootOnly = StateShootOnly::Nearshoot;
   m_stateNearShoot = StateNearShoot::PreShoot;
+
+  // m_stateCenter2Auto = StateCenter2Auto::Nearshoot;
+  // m_stateNearShoot = StateNearShoot::PreShoot;
 }
 
 void Robot::AutonomousPeriodic()
 {
-  TakeNoteSwitch();
-  Center2Auto();
+  // TakeNoteSwitch();
+  // Center2Auto();
 
-  // ShootOnly();
+  ShootOnly();
   /*
   NLRAMSETEOUTPUT output;
   NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
@@ -394,7 +400,21 @@ void Robot::TeleopInit()
   m_robotContainer.m_drivetrain.m_auto = false;
 }
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic()
+{
+  if (m_countable < 25 and m_robotContainer.m_feeder.IsRumbling)
+  {
+    m_countable++;
+    std::cout << "cc" << std::endl;
+    m_robotContainer.m_xboxControllerCopilote.SetRumble(frc::GenericHID::RumbleType::kBothRumble, 0.5);
+  }
+  else
+  {
+    m_countable = 0;
+    m_robotContainer.m_feeder.IsRumbling = false;
+    m_robotContainer.m_xboxControllerCopilote.SetRumble(frc::GenericHID::RumbleType::kBothRumble, 0.0);
+  }
+}
 
 void Robot::TeleopExit() {}
 

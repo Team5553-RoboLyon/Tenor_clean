@@ -91,6 +91,8 @@ public:
   int m_count;
   bool m_shoot;
   int m_countCenter;
+  int m_countOnly;
+  int m_countable;
 
   bool m_preShoot;
 
